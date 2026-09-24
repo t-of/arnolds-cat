@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "猫写像 — 混ぜた絵が必ず元に戻る",
+  "short_name": "猫写像",
+  "description": "絵のマス目を決まった式で並べ替えて、ぐちゃぐちゃに混ぜる。何度もくり返すと、ある回数でぴったり元の絵に戻る。自分の写真でも試せる。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4efe6",
+  "theme_color": "#f4efe6",
+  "lang": "ja",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

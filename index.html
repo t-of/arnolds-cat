@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4efe6">
+  <meta name="description" content="絵のマス目を決まった式で並べ替えて、ぐちゃぐちゃに混ぜる。何度もくり返すと、ある回数でぴったり元の絵に戻る。自分の写真でも試せる。">
+  <title>猫写像 — 混ぜた絵が必ず元に戻る</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="猫写像">
+  <meta property="og:title" content="猫写像 — 混ぜた絵が必ず元に戻る">
+  <meta property="og:description" content="絵のマス目を決まった式で並べ替えて、ぐちゃぐちゃに混ぜる。何度もくり返すと、ある回数でぴったり元の絵に戻る。自分の写真でも試せる。">
+  <meta property="og:url" content="https://t-of.github.io/cat-map/">
+  <meta property="og:image" content="https://t-of.github.io/cat-map/icons/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- apple-mobile-web-app-status-bar-style は付けない（black-translucent だと iOS 26 で上部が隠れる） -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="猫写像">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="./webapp-kit/webapp-kit.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="bar">
+      <h1 class="bar__title">猫写像</h1>
+      <button class="icon-btn" id="soundBtn" aria-pressed="true" aria-label="音: オン"><svg viewBox="0 0 24 24" id="soundIcon" aria-hidden="true"></svg></button>
+      <button class="icon-btn" id="helpBtn" aria-label="遊び方">?</button>
+    </header>
+
+    <div class="pic" id="pic" aria-label="絵。押しているあいだは元の絵を出す">
+      <canvas id="cells" width="124" height="124"></canvas>
+      <canvas id="anim" hidden aria-hidden="true"></canvas>
+      <p class="pic__tag" id="origTag" hidden>元の絵</p>
+      <p class="pic__back" id="backMsg" hidden>戻った！</p>
+    </div>
+
+    <div class="count">
+      <p class="count__text"><b id="kText">0</b> 回目 / <span id="pText">15</span> 回で戻る</p>
+      <div class="bar-track" id="track"><div class="bar-fill" id="fill"></div><div class="bar-mid" id="mid" hidden></div></div>
+    </div>
+
+    <section class="panel">
+      <div class="controls">
+        <button class="btn" id="first" aria-label="はじめに戻す">⏮ はじめ</button>
+        <button class="btn" id="back" aria-label="1 回戻す">◀ 1 回</button>
+        <button class="btn btn--play" id="play" aria-label="再生">▶</button>
+        <button class="btn" id="fwd" aria-label="1 回進む">1 回 ▶</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="half">半分へ</button>
+        <div class="speed" id="speed" role="group" aria-label="速さ">
+          <button class="btn" data-speed="0">ゆっくり</button>
+          <button class="btn" data-speed="1">ふつう</button>
+          <button class="btn" data-speed="2">はやい</button>
+        </div>
+      </div>
+
+      <h2 class="label">大きさ</h2>
+      <div class="presets" id="presets"></div>
+      <div class="size">
+        <button class="btn btn--sq" id="minus" aria-label="小さく">−</button>
+        <p class="size__n" id="nText">124 × 124</p>
+        <button class="btn btn--sq" id="plus" aria-label="大きく">＋</button>
+      </div>
+      <input class="slider" id="slider" type="range" min="8" max="256" step="1" value="124" aria-label="大きさ">
+      <p class="note" id="periodNote">この大きさは 15 回で戻る</p>
+
+      <h2 class="label">絵をえらぶ</h2>
+      <div class="pics" id="pics">
+        <button class="btn" data-pic="cat">ねこ</button>
+        <button class="btn" data-pic="text">もじ</button>
+        <label class="btn" data-pic="photo">写真をえらぶ<input type="file" id="file" accept="image/*" hidden></label>
+      </div>
+      <p class="note">写真はこの端末の中だけで使います。どこにも送りません。</p>
+      <p class="note note--err" id="fileErr" role="alert" hidden>この画像は開けませんでした。JPEG か PNG の写真を選んでください。</p>
+
+      <footer class="foot">
+        <div class="foot__actions">
+          <button class="pill" data-wak="install" hidden>アプリにする</button>
+          <button class="pill" data-wak="share" id="share">共有</button>
+        </div>
+        <p class="credit"><a href="/">T.OF... のアプリ</a></p>
+      </footer>
+    </section>
+  </main>
+
+  <div class="help" id="help" hidden>
+    <div class="help__box" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <h2 id="helpTitle">遊び方</h2>
+      <ol>
+        <li>▶ を押すと、絵が 1 回ずつ混ざっていく。すぐに砂嵐のようになる。</li>
+        <li>それでも混ぜ続けると、決まった回数でぴったり元の絵に戻る。何回で戻るかは、絵の大きさ（マスの数）で大きく変わる。</li>
+        <li>大きさを変えたり、自分の写真に変えたりして試す。写真はこの端末の中だけで使い、どこにも送らない。</li>
+      </ol>
+      <p class="help__note">絵を押しているあいだは元の絵が見える。混ぜ方は、数学者アーノルドの名前がついた「アーノルドの猫写像」という並べ替え（マス (x, y) を (2x + y, x + y) へ動かし、はみ出た分は反対側から回り込ませる）。</p>
+      <button class="btn btn--primary" id="helpClose">はじめる</button>
+    </div>
+  </div>
+
+  <script src="./webapp-kit/webapp-kit.js"></script>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
