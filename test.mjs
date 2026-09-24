@@ -8,7 +8,7 @@ const test = (name, fn) => { fn(); console.log('✓', name); };
 const ramp = (n) => Uint32Array.from({ length: n * n }, (_, i) => i);
 
 test('仕様のおすすめの大きさの周期', () => {
-  assert.deepEqual(PRESETS.map(period), [9, 15, 12, 25, 150, 750]);
+  assert.deepEqual(PRESETS.map(period), [9, 15, 12, 25, 150, 150, 750, 30]);
 });
 
 test('ほかの周期（小さい N）', () => {
@@ -59,7 +59,8 @@ test('k 回目を直接作ったものは、1 回ずつ k 回混ぜたものと�
 });
 
 test('半分でさかさま: 判定と、そのとき絵が 180° 回っていること', () => {
-  assert.deepEqual(PRESETS.map((n) => hasHalf(n)), [false, false, false, false, false, true]);   // 250 だけ
+  // おすすめのうち 50・250・10 は「半分へ」が押せる（250 だけにしない）
+  assert.deepEqual(PRESETS.map((n) => hasHalf(n)), [false, false, false, false, false, true, true, true]);
   assert.equal(hasHalf(10), true);
   // 判定は、周期の半分の絵を実際に作って 180° 回った形（(x, y) の色が (−x, −y) mod N）かを見たのと同じ
   for (let n = MIN_N; n <= MAX_N; n++) {
@@ -92,6 +93,6 @@ test('URL の ?n= と共有の文', () => {
   assert.equal(nFromSearch('?n=257'), null);
   assert.equal(nFromSearch('?n=1e2'), null);
   assert.equal(nFromSearch(''), null);
-  assert.equal(shareUrl('https://t-of.github.io/cat-map/', 124), 'https://t-of.github.io/cat-map/?n=124');
-  assert.equal(shareText(124, 15), '124 × 124 の絵は、15 回混ぜるとぴったり元に戻る（猫写像）');
+  assert.equal(shareUrl('https://t-of.github.io/arnolds-cat/', 124), 'https://t-of.github.io/arnolds-cat/?n=124');
+  assert.equal(shareText(124, 15), "124 × 124 の絵は、15 回混ぜるとぴったり元に戻る（ARNOLD'S CAT）");
 });

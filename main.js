@@ -4,8 +4,8 @@ import {
 } from './catmap.js';
 
 // localStorage はほかのアプリと共有される（同じ t-of.github.io のため）。
-// キーは必ず 'cat-map.' で始める。写真はここにも IndexedDB にも入れない（同じサイトの他のアプリから読めるため）
-const STORE = 'cat-map.';
+// キーは必ず 'arnolds-cat.' で始める。写真はここにも IndexedDB にも入れない（同じサイトの他のアプリから読めるため）
+const STORE = 'arnolds-cat.';
 
 function loadRaw(key) {
   try { return localStorage.getItem(STORE + key); } catch { return null; }

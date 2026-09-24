@@ -1,13 +1,14 @@
-// 猫写像の中身（1 回混ぜる・戻す、周期、k 回目の絵、半分でさかさまの判定、保存と URL の読み書き）。
+// ARNOLD'S CAT の中身。アーノルドの猫写像の 1 回混ぜる・戻す、周期、k 回目の絵、半分でさかさまの判定、保存と URL の読み書き。
 // DOM には触らない。ブラウザでは main.js から、テストでは node test.mjs から読む。
 
 // 画面・共有の文に出るアプリ名。名前を変えるときはここと、index.html の <head>・manifest・README を直す
-export const APP_NAME = '猫写像';
+export const APP_NAME = "ARNOLD'S CAT";
 
 export const MIN_N = 8;
 export const MAX_N = 256;
 export const DEFAULT_N = 124;
-export const PRESETS = [76, 124, 144, 101, 100, 250];   // おすすめの大きさ（並べる順）
+// おすすめの大きさ（並べる順）。50・250・10 は周期の半分でさかさまになる
+export const PRESETS = [76, 124, 144, 101, 100, 50, 250, 10];
 
 // 行列は [a, b, c, d] = (a b; c d)。マス (x, y) は (a x + b y, c x + d y) mod n へ動く
 export const CAT = [2, 1, 1, 1];
@@ -66,7 +67,7 @@ export function imageAt(orig, n, k) {
   return out;
 }
 
-// ---- 保存（cat-map.state）と URL ----
+// ---- 保存（arnolds-cat.state）と URL ----
 
 export const DEFAULT_STATE = { v: 1, n: DEFAULT_N, speed: 1, pic: 'cat', sound: true, seenHelp: false };
 
