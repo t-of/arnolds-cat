@@ -1,1 +1,73 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#f4efe6"/><text x="256" y="256" dy=".35em" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="280" fill="#eceef3">猫</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <clipPath id="rounded"><rect width="512" height="512" rx="112"/></clipPath>
+    <clipPath id="head-clip">
+      <circle cx="256" cy="284" r="146"/>
+    </clipPath>
+    <clipPath id="band-clip">
+      <rect x="90" y="352" width="332" height="66"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#rounded)">
+  <!-- background: same sky blue as the app's own sample picture -->
+  <rect width="512" height="512" fill="#5fbfe3"/>
+
+  <!-- ear tips (outer, same as fur color; base gets covered by head circle) -->
+  <polygon points="150,90 250,210 108,230" fill="#e8933f"/>
+  <polygon points="362,90 262,210 404,230" fill="#e8933f"/>
+
+  <!-- head -->
+  <circle cx="256" cy="284" r="146" fill="#e8933f"/>
+
+  <!-- inner ear (pink), drawn on top so it reads as ear detail -->
+  <polygon points="158,118 240,205 140,215" fill="#f3aeb8"/>
+  <polygon points="354,118 272,205 372,215" fill="#f3aeb8"/>
+
+  <!-- cheeks / muzzle -->
+  <ellipse cx="205" cy="332" rx="58" ry="46" fill="#faeed3"/>
+  <ellipse cx="307" cy="332" rx="58" ry="46" fill="#faeed3"/>
+
+  <!-- the chin still scrambled: a diagonal-striped band at the real shear
+       angle (atan(1/2) ~= 26.57deg), the rest of the cat already restored -->
+  <g clip-path="url(#head-clip)">
+    <g clip-path="url(#band-clip)">
+      <g transform="rotate(26.57 256 385)">
+        <rect x="0" y="290" width="512" height="17" fill="#5fbfe3"/>
+        <rect x="0" y="307" width="512" height="17" fill="#c97529"/>
+        <rect x="0" y="324" width="512" height="17" fill="#faeed3"/>
+        <rect x="0" y="341" width="512" height="17" fill="#3a2a1c"/>
+        <rect x="0" y="358" width="512" height="17" fill="#e8933f"/>
+        <rect x="0" y="375" width="512" height="17" fill="#faeed3"/>
+        <rect x="0" y="392" width="512" height="17" fill="#5fbfe3"/>
+        <rect x="0" y="409" width="512" height="17" fill="#c97529"/>
+        <rect x="0" y="426" width="512" height="17" fill="#e8933f"/>
+        <rect x="0" y="443" width="512" height="17" fill="#faeed3"/>
+        <rect x="0" y="460" width="512" height="17" fill="#3a2a1c"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- eyes -->
+  <ellipse cx="206" cy="270" rx="25" ry="30" fill="#1f5c46"/>
+  <ellipse cx="306" cy="270" rx="25" ry="30" fill="#1f5c46"/>
+  <circle cx="198" cy="259" r="7" fill="#ffffff"/>
+  <circle cx="314" cy="259" r="7" fill="#ffffff"/>
+
+  <!-- nose -->
+  <polygon points="243,308 269,308 256,324" fill="#e8798a"/>
+
+  <!-- mouth -->
+  <path d="M256,324 Q240,344 214,334 M256,324 Q272,344 298,334" fill="none" stroke="#3a2a1c" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- whiskers -->
+  <g stroke="#3a2a1c" stroke-width="5" stroke-linecap="round">
+    <line x1="150" y1="300" x2="72" y2="286"/>
+    <line x1="150" y1="314" x2="66" y2="314"/>
+    <line x1="150" y1="328" x2="72" y2="340"/>
+    <line x1="362" y1="300" x2="440" y2="286"/>
+    <line x1="362" y1="314" x2="446" y2="314"/>
+    <line x1="362" y1="328" x2="440" y2="340"/>
+  </g>
+  </g>
+</svg>
